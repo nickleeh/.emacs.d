@@ -1,0 +1,128 @@
+perl -npe 's/[:blank:]/,/g' emp.data
+perldoc perlrun
+-M[-]*'module ...'*
+perl -npe 's/[:blank:]/,/g' emp.data
+-M[-]*'module ...'*
+cd ..
+ls
+cd r_proj/
+ls
+git pull
+git status
+git status
+git add . 
+git status
+git add -a .
+git add .
+git add -A
+git status
+git commit -m "Add an exercises script from example in `The AWK Programming Language'"
+git status
+git push 
+git push origin master
+cd ../r_exercise_data/
+ls
+cat emp.data
+perl -pe 's/ \+/,/g' emp.data
+perl -pe 's/ /,/g' emp.data
+perl -pe 's/ {1,}/,/g' emp.data
+perl -pe 's/ {1,}/,/g' emp.data > emp.data.clean.perl
+irb
+ipython
+powershell
+pwd
+whereis python
+get-command python
+exit
+which python
+juyter ntebook
+lein repl
+exit
+jupyter notebook
+conda install tornado
+tree .emacs.d/
+tree .
+exit
+tree .emacs.d/
+ls
+pwd
+tree .emacs.d/
+exit
+ls
+tree .emacs.d/
+exit
+tree .emacs.d/
+tree .emacs.d/
+exit
+pwd
+ls
+pwd
+ls
+exit
+ssh
+jupyter notebook
+zsh
+babun.bat
+nc
+cd ../Downloads/nc111nt/
+ls
+./nc localhost 25000
+./nc.exe localhost 25000
+cd
+vagrant plugin install vagrant-vbguest vagrant-share
+vagrant box add terrywang/archlinux
+vagrant box add terrywang/archlinux
+vagrant box add terrywang/archlinux
+vagrant.exe init archlinux
+vagrant.exe up
+vagrant.exe up
+ls
+ls | grep vagrant
+ls -a  | grep vagrant
+whereis git
+exit
+git config --global core.preloadindex true
+git config --global core.fscache true
+git config --global gc.auto 256
+cd
+which git
+git --version
+vagrant.exe init archlinux
+ls | grep Vagrantfile
+vagrant.exe up
+ls grap | arch
+ls | grep arch
+rm Vagrantfile 
+cd .vagrant.d/
+ls
+cd boxes/
+ls
+cd
+vagrant.exe up archlinux
+vagrant.exe init archlinux
+vagrant.exe up
+rm Vagrantfile 
+vagrant init terrywang/archlinux; vagrant up --provider virtualbox
+vagrant init terrywang/archlinux; vagrant up --provider virtualbox
+vagrant.exe up
+vagrant.exe ssh
+cd hello_server/
+python hello.py
+cd sum_test/
+ls
+./sum_go.go
+./sum_go.exe
+time ./sum_go.exe
+cd
+cd projects/my-project/
+ls
+cd ../my-app/
+ls
+lein ancient
+lein ancient
+lein start
+lein run
+iex
+exit
+iex.bat 
+..

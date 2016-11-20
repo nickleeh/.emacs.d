@@ -1,0 +1,11 @@
+auto-save-list/
+el-get/
+elpa/
+request/
+server/
+snippets/
+%*
+*~
+session.*
+*.dat
+.#*

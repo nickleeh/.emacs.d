@@ -1,0 +1,196 @@
+;; -*- mode: Lisp; fill-column: 75; comment-column: 50; -*-
+;;; Emacs configuration begin
+
+
+;;; Package settings
+;; Package settings should come first in emacs init file.
+(require 'package)
+(add-to-list 'package-archives
+	     ;;             '("melpa" . "https://melpa.org/packages/") t)
+	     '("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/") t)
+
+(package-initialize)
+
+
+;; Bootstrap `use-package`
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+
+(use-package oceanic-theme
+  :ensure t
+  :config
+  (load-theme 'oceanic t))
+
+
+;; avy - search/jump to a word/character.
+(use-package avy
+  :ensure t
+  :bind (("M-s" . avy-goto-word-1)))
+
+
+;; volatile highlights - temporarily highlight changes from pasting etc
+(use-package volatile-highlights
+  :ensure t
+  :config
+  (volatile-highlights-mode t))
+
+
+(use-package multiple-cursors
+  :bind  (("C-S-c C-S-c" . mc/edit-lines)
+	  ("C->" . mc/mark-next-like-this)
+	  ("C-<" . mc/mark-previous-like-this)
+	  ("C-c C-<" . mc/mark-all-like-this))
+  :config
+  (progn (global-unset-key (kbd "M-<down-mouse-1>"))
+	 (global-set-key (kbd "M-<mouse-1>") 'mc/add-cursor-on-click)))
+
+;; delete blank lines and whitespace
+(global-set-key (kbd "M-SPC") 'shrink-whitespace)
+
+
+;;; Toggle between most recent buffers
+;; http://www.emacswiki.org/emacs/SwitchingBuffers#toc5
+(defun switch-to-previous-buffer ()
+  "Switch to most recent buffer. Repeated calls toggle back and forth between the most recent two buffers."
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
+
+;; set key binding
+(global-set-key (kbd "M-`") 'switch-to-previous-buffer)
+
+
+;;;; Encoding settings from Mastering Emacs:
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+;; backwards compatibility as default-buffer-file-coding-system is
+;; deprecated in 23.2.
+(if (boundp 'buffer-file-coding-system)
+    (setq-default buffer-file-coding-system 'utf-8)
+  (setq default-buffer-file-coding-system 'utf-8))
+
+;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+
+
+;; Swiper. Ivy - a generic completion frontend for Emacs, Swiper - isearch
+;; with an overview, and more.
+(use-package swiper
+  :ensure t
+  :bind ("C-s" . swiper)
+  :config
+  (setq ivy-display-style 'fancy)
+  ;; advise swiper to recenter on exit
+  (defun bjm-swiper-recenter (&rest args)
+    "recenter display after swiper"
+    (recenter))
+  (advice-add 'swiper :after #'bjm-swiper-recenter))
+
+
+;; join line to next line
+(global-set-key (kbd "C-j")
+		(lambda ()
+                  (interactive)
+                  (join-line -1)))
+
+;;;; helm settings
+(load "~/.emacs.d/config/helm-cfg")
+
+;;;; keybindings
+(load "~/.emacs.d/config/key-bindings-cfg")
+
+;;;; Appearence settings
+(load "~/.emacs.d/config/appearence-cfg")
+
+;;;; Auto-complete:
+(require 'auto-complete)
+(global-auto-complete-mode t)
+
+;;;; Helper function:
+(load "~/.emacs.d/config/helper-fn-cfg")
+
+;;;; zsh ansi-term settings
+(load "~/.emacs.d/config/zsh-cfg")
+
+;;;; ESS config
+(load "~/.emacs.d/config/ess-cfg")
+
+;;;; Dired config
+(load "~/.emacs.d/config/dired-cfg")
+
+;;;; Set startup dir: default-directory
+(setq default-directory (concat (getenv "HOME") "/"))
+
+
+;; Elpy - Emacs Lisp Python
+(use-package elpy
+  :ensure t
+  :init (elpy-enable)
+  (elpy-use-ipython))
+
+
+(use-package ein
+  :ensure t
+  :init (require 'ein))
+
+;; show matched parenthesis
+(require 'paren)
+(setq show-paren-style 'parenthesis)
+(show-paren-mode +1)
+
+;; (require 'ob-ipython)
+
+
+(use-package aggressive-indent
+  :ensure t
+  :config
+  (global-aggressive-indent-mode +1))
+
+
+;; (use-package easy-kill
+;;   :ensure t
+;;   :config
+;;   (global-set-key [remap kill-ring-save] 'easy-kill))
+
+
+;; Start emacs server for emacs client
+;; (server-start)
+
+
+;; Settings for using tramp on Windows (using 'plink.exe')
+(require 'tramp)
+(setq tramp-default-method "plink")
+
+
+;; Neotree:
+;; (add-to-list 'load-path "/some/path/neotree")
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+
+
+;; INSERT TODAY¡¯S DATE
+;; from http://emacswiki.org/emacs/InsertingTodaysDate
+(defun insert-todays-date (arg)
+  (interactive "P")
+  (insert (if arg
+              (format-time-string "%d-%m-%Y")
+            (format-time-string "%Y-%m-%d"))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (oceanic-theme ac-alchemist zenburn-theme zenburn volatile-highlights visible-mark use-package swiper solarized-theme shrink-whitespace rw-language-and-country-codes rw-ispell rw-hunspell pdf-tools paredit ob-ipython neotree multiple-cursors multi-term magit helm-R haskell-mode esup ess-smart-equals ein dot-mode cider-spy alchemist aggressive-indent ace-window ac-ispell))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 2.0)))))
